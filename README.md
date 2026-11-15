@@ -35,6 +35,6 @@ contains excalidraw.com's collaboration or Firebase addresses.
 `patches/self-hosted.patch`, applied before the build:
 
 - All fonts come from this host. Upstream loads them from Excalidraw's CDN (DigitalOcean, New York) and warms up connections to Google Fonts, which tells both every visitor's address. The build fails if any of those addresses is left in the app.
-- The main menu links the operator's Impressum and privacy policy on patrickscheid.de.
+- The main menu links the operator's legal notice and privacy policy on patrickscheid.de ("Legal notice", "Privacy").
 
 To change it: clone the fork at `EXCALIDRAW_REF`, apply the patch, edit, and write `git diff` back into the file.

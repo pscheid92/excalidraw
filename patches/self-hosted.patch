@@ -1,5 +1,5 @@
 diff --git a/excalidraw-app/components/AppMainMenu.tsx b/excalidraw-app/components/AppMainMenu.tsx
-index cb741cf..958d8fd 100644
+index cb741cf..6482c69 100644
 --- a/excalidraw-app/components/AppMainMenu.tsx
 +++ b/excalidraw-app/components/AppMainMenu.tsx
 @@ -45,6 +45,13 @@ export const AppMainMenu: React.FC<{
@@ -8,10 +8,10 @@ index cb741cf..958d8fd 100644
        <MainMenu.DefaultItems.Socials />
 +      {/* excalidraw.k.patrickscheid.de: its operator's legal notice and privacy policy */}
 +      <MainMenu.ItemLink href="https://patrickscheid.de/impressum/">
-+        Impressum
++        Legal notice
 +      </MainMenu.ItemLink>
 +      <MainMenu.ItemLink href="https://patrickscheid.de/datenschutz/#excalidraw">
-+        Datenschutz
++        Privacy
 +      </MainMenu.ItemLink>
        <MainMenu.ItemLink
          icon={loginIcon}
