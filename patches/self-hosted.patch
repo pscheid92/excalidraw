@@ -1,0 +1,54 @@
+diff --git a/excalidraw-app/components/AppMainMenu.tsx b/excalidraw-app/components/AppMainMenu.tsx
+index cb741cf..958d8fd 100644
+--- a/excalidraw-app/components/AppMainMenu.tsx
++++ b/excalidraw-app/components/AppMainMenu.tsx
+@@ -45,6 +45,13 @@ export const AppMainMenu: React.FC<{
+         Excalidraw+
+       </MainMenu.ItemLink>
+       <MainMenu.DefaultItems.Socials />
++      {/* excalidraw.k.patrickscheid.de: its operator's legal notice and privacy policy */}
++      <MainMenu.ItemLink href="https://patrickscheid.de/impressum/">
++        Impressum
++      </MainMenu.ItemLink>
++      <MainMenu.ItemLink href="https://patrickscheid.de/datenschutz/#excalidraw">
++        Datenschutz
++      </MainMenu.ItemLink>
+       <MainMenu.ItemLink
+         icon={loginIcon}
+         href={`${import.meta.env.VITE_APP_PLUS_APP}${
+diff --git a/excalidraw-app/index.html b/excalidraw-app/index.html
+index 33dba6f..3c418f9 100644
+--- a/excalidraw-app/index.html
++++ b/excalidraw-app/index.html
+@@ -92,9 +92,6 @@
+       }
+     </style>
+ 
+-    <!-- Warmup the connection for Google fonts -->
+-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+ 
+     <!------------------------------------------------------------------------->
+     <% if (typeof PROD != 'undefined' && PROD == true) { %>
+diff --git a/scripts/woff2/woff2-vite-plugins.js b/scripts/woff2/woff2-vite-plugins.js
+index b62a76c..037e3e9 100644
+--- a/scripts/woff2/woff2-vite-plugins.js
++++ b/scripts/woff2/woff2-vite-plugins.js
+@@ -1,5 +1,6 @@
+ // define `EXCALIDRAW_ASSET_PATH` as a SSOT
+-const OSS_FONTS_CDN = "https://excalidraw.nyc3.cdn.digitaloceanspaces.com/oss/";
++// excalidraw.k.patrickscheid.de: every font comes from this server, none from a CDN.
++const OSS_FONTS_CDN = "/";
+ const OSS_FONTS_FALLBACK = "/";
+ 
+ /**
+@@ -19,7 +20,8 @@ module.exports.woff2BrowserPlugin = () => {
+     transform(code, id) {
+       // using copy / replace as fonts defined in the `.css` don't have to be manually copied over (vite/rollup does this automatically),
+       // but at the same time can't be easily prefixed with the `EXCALIDRAW_ASSET_PATH` only for the `excalidraw-app`
+-      if (!isDev && id.endsWith("/excalidraw/fonts/fonts.css")) {
++      // Keep the original fonts.css, so the build bundles the UI font itself.
++      if (false && !isDev && id.endsWith("/excalidraw/fonts/fonts.css")) {
+         return `/* WARN: The following content is generated during excalidraw-app build */
+ 
+       @font-face {

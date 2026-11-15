@@ -20,6 +20,12 @@ RUN git clone --depth 1 --branch "$EXCALIDRAW_REF" https://github.com/alswl/exca
 WORKDIR /src
 RUN yarn --frozen-lockfile --network-timeout 600000
 
+# Our changes to the fork (patches/self-hosted.patch): fonts come from this
+# host instead of Excalidraw's CDN, no preconnect to Google Fonts, and the
+# main menu links the operator's Impressum and privacy policy.
+COPY patches/ /patches/
+RUN git apply /patches/*.patch
+
 # Vite takes VITE_* from the environment over its .env files.
 ARG ORIGIN=https://excalidraw.k.patrickscheid.de
 ENV VITE_APP_WS_SERVER_URL=$ORIGIN \
@@ -35,6 +41,8 @@ RUN yarn build:app:docker
 # Firebase addresses made it into the app. (The public library's submit
 # address stays: it's only used when you publish a library there.)
 RUN if grep -rEo ".{60}(excalidraw-room-persistence\.(firebaseapp|appspot|firebaseio)|oss-collab\.excalidraw\.com|json\.excalidraw\.com).{60}" excalidraw-app/build; then exit 1; fi
+# … and if the page would still fetch fonts from elsewhere when it opens.
+RUN if grep -rEo ".{60}(digitaloceanspaces\.com|fonts\.googleapis\.com|fonts\.gstatic\.com).{60}" excalidraw-app/build; then exit 1; fi
 
 FROM docker.io/library/nginx:stable-alpine-slim
 COPY --from=build /src/excalidraw-app/build /usr/share/nginx/html
